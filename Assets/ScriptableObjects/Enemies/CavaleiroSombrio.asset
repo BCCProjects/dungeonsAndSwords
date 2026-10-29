@@ -20,4 +20,4 @@ MonoBehaviour:
   patrolSpeed: 1.5
   chaseSpeed: 2.2
   visionRange: 25
-  xpReward: 0
+  xpReward: 60

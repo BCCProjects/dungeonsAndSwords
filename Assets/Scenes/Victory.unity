@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "O Cavaleiro Sombrio foi derrotado.\nA masmorra est\xE1 livre!"
+  m_text: "O Demon Slime foi derrotado.\nO castelo est\xE1 livre!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}
   m_sharedMaterial: {fileID: 7447133163417152068, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}

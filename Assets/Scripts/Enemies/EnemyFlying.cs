@@ -2,8 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Inimigo voador: persegue o jogador seguindo o caminho do A*, recalculado a cada 0,3–0,5 s.
+// Com projétil (Demônio Voador), para a attackRange do jogador e atira de longe.
 public class EnemyFlying : EnemyBase
 {
+    [Header("Tiro (opcional)")]
+    [Tooltip("Vazio = ataque corpo a corpo (AttackHit). Com projétil, o ataque dispara pelo Animation Event ShootProjectile.")]
+    [SerializeField] private Projectile projectilePrefab;
+
     [Header("A*")]
     [SerializeField] private AStarPathfinder pathfinder;
     [SerializeField] private float repathInterval = 0.4f;
@@ -68,6 +73,14 @@ public class EnemyFlying : EnemyBase
         {
             rb.linearVelocity = Vector2.zero;
         }
+    }
+
+    // Animation Event do ataque à distância: bola de fogo no peito do jogador.
+    public void ShootProjectile()
+    {
+        if (IsDead || player == null || projectilePrefab == null) return;
+        Projectile shot = Instantiate(projectilePrefab, attackPoint.position, Quaternion.identity);
+        shot.Launch(PlayerTarget() - attackPoint.position, data.damage, playerLayer);
     }
 
     // Mira no peito do jogador, não nos pés.

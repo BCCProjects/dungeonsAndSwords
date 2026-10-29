@@ -1,13 +1,12 @@
 using UnityEngine;
 
-// O Animator do chefe fica no filho "Root" do esqueleto do personagem.
-// Os Animation Events chegam aqui e são repassados para o BossController.
+// Nos chefes, o Animator fica num objeto filho (o visual do personagem).
+// Os Animation Events chegam aqui e são repassados para o script do chefe no objeto pai.
 public class BossAnimationEvents : MonoBehaviour
 {
-    private BossController boss;
+    public void AttackHit() => Forward(nameof(AttackHit));
+    public void ShootBeam() => Forward(nameof(ShootBeam));
+    public void CastSpell() => Forward(nameof(CastSpell));
 
-    private void Awake() => boss = GetComponentInParent<BossController>();
-
-    public void AttackHit() => boss.AttackHit();
-    public void ShootBeam() => boss.ShootBeam();
+    private void Forward(string method) => transform.parent.SendMessageUpwards(method, SendMessageOptions.DontRequireReceiver);
 }

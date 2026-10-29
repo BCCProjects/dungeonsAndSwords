@@ -9,7 +9,7 @@ public static class SceneLoader
     public const string ClassSelect = "ClassSelect";
     public const string Victory = "Victory";
     public const string GameOver = "GameOver";
-    public const int LastLevel = 3;
+    public const int LastLevel = 5;
 
     public static void LoadMainMenu()
     {

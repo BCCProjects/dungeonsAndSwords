@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcef06f28e55a3e48b4a62ab27b30e9a, type: 3}
+  m_Name: DemonioVoador
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  displayName: "Dem\xF4nio Voador"
+  maxHealth: 18
+  damage: 4
+  attackRange: 6
+  attackCooldown: 2.2
+  patrolSpeed: 2
+  chaseSpeed: 2.8
+  visionRange: 12
+  xpReward: 18

@@ -12,9 +12,11 @@ public class LevelManager : MonoBehaviour
     [Tooltip("Segundos entre 'Fase concluída!' e o painel de próxima fase.")]
     [SerializeField] private float completeDelay = 2.5f;
 
-    [Header("Fase final")]
-    [Tooltip("Chefe desativado na cena; aparece quando os outros inimigos morrem. Vazio nas fases 1 e 2.")]
+    [Header("Chefe")]
+    [Tooltip("Chefe desativado na cena; aparece quando os outros inimigos morrem. Vazio nas fases sem chefe.")]
     [SerializeField] private GameObject boss;
+    [Tooltip("Fase final: derrotar o chefe leva direto à Vitória. Senão, segue o fim de fase normal.")]
+    [SerializeField] private bool finalLevel;
     [SerializeField] private AudioClip bossMusic;
     [SerializeField] private float victoryDelay = 3f;
 
@@ -40,7 +42,15 @@ public class LevelManager : MonoBehaviour
     {
         if (boss != null && enemy.gameObject == boss)
         {
-            StartCoroutine(VictoryAfterDelay());
+            if (finalLevel)
+            {
+                StartCoroutine(VictoryAfterDelay());
+            }
+            else
+            {
+                ui.HideBossBar();
+                enemiesCleared = true; // segue o fim de fase normal: level up, itens e painel
+            }
             return;
         }
 
