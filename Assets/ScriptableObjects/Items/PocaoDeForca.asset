@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fb0d0097b5568c4d960894484ece6ac, type: 3}
+  m_Name: PocaoDeForca
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  displayName: "Po\xE7\xE3o de For\xE7a"
+  description: +3 de dano por 30s
+  icon: {fileID: 21300000, guid: aba144c2f7f107c48a57fff71eee9138, type: 3}
+  color: {r: 1, g: 0.6, b: 0.2, a: 1}
+  type: 2
+  amount: 3
+  duration: 30
+  chanceDrop: 0.08
