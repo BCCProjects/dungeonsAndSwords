@@ -17,6 +17,7 @@ public class Health : MonoBehaviour
     public int Max => maxHealth;
     public bool IsDead { get; private set; }
     public float DamageReduction { get; set; } // Resistência do jogador (0,2 = recebe 20% menos)
+    public bool PlayHurtAnimation { get; set; } = true; // os chefes decidem sozinhos quando sentem o golpe
 
     public event Action<int, int> HealthChanged; // (atual, máximo)
     public event Action<int> Damaged;            // dano que realmente entrou (piscar, números)
@@ -47,7 +48,7 @@ public class Health : MonoBehaviour
 
         if (Current == 0)
             Die();
-        else if (animator != null)
+        else if (animator != null && PlayHurtAnimation)
             animator.SetTrigger(HurtHash);
     }
 

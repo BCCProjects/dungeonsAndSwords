@@ -324,7 +324,6 @@ MonoBehaviour:
   strengthPerLevel: 2
   agilityPerLevel: 0.1
   resistancePerLevel: 0.08
-  minCooldownMultiplier: 0.5
   maxDamageReduction: 0.6
 --- !u!114 &735302912188279065
 MonoBehaviour:

@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateStats()
     {
-        statsText.text = $"Dano {levelSystem.Damage}    Vel. ataque {levelSystem.AttackSpeed:0.00}x    Resistência {levelSystem.Resistance * 100f:0}%";
+        statsText.text = $"Dano {levelSystem.Damage}   Velocidade {levelSystem.Speed:0.00}x   Resistência {levelSystem.Resistance * 100f:0}%";
     }
 
     // Poções ativas com o tempo que falta.
@@ -130,7 +130,7 @@ public class UIManager : MonoBehaviour
         switch (item.type)
         {
             case ItemData.ItemType.Strength: return $"Força +{item.amount:0} dano";
-            case ItemData.ItemType.Agility: return $"Agilidade +{item.amount * 100f:0}% vel. ataque";
+            case ItemData.ItemType.Agility: return $"Agilidade +{item.amount * 100f:0}% velocidade";
             case ItemData.ItemType.Resistance: return $"Resistência -{item.amount * 100f:0}% dano";
             default: return item.displayName;
         }

@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 // A* implementado por nós, sobre um grid lido dos Tilemaps de colisão (Ground e Platforms).
 // Cada célula do Tilemap vira um nó: com tile = bloqueado, sem tile = livre para voar.
+// Também bloqueia célula onde o colisor de um tile vizinho invade (o desenho do tile é maior que a célula):
+// senão o voador tenta passar rente à quina, bate e fica preso.
 // Custo f = g + h, com h = distância de Manhattan; movimento em 4 direções, custo 1 por passo.
 public class AStarPathfinder : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class AStarPathfinder : MonoBehaviour
     [SerializeField] private int padding = 2;       // células livres em volta do mapa
     [SerializeField] private int skyPadding = 8;    // espaço extra acima, para o voador manobrar
     [SerializeField] private int maxIterations = 4000;
+    [Tooltip("Espaço livre exigido no centro de cada célula (o corpo do voador precisa caber).")]
+    [SerializeField] private Vector2 clearance = new Vector2(0.95f, 0.95f);
     [SerializeField] private bool drawGrid;
 
     private class Node
@@ -29,15 +33,22 @@ public class AStarPathfinder : MonoBehaviour
     private bool[,] walkable;
     private List<Vector3> lastPath = new List<Vector3>();
 
-    private void Awake() => BuildGrid();
+    private readonly Collider2D[] overlap = new Collider2D[1];
+
+    // No Start os colisores dos Tilemaps já existem (no Awake podem ainda não ter sido gerados).
+    private void Start() => BuildGrid();
 
     // Lê os Tilemaps de colisão e monta a matriz de células livres/bloqueadas.
     public void BuildGrid()
     {
         grid = obstacleTilemaps[0].layoutGrid;
         bounds = obstacleTilemaps[0].cellBounds;
+        var filter = new ContactFilter2D { useTriggers = false };
+        int obstacleMask = 0;
         foreach (Tilemap map in obstacleTilemaps)
         {
+            obstacleMask |= 1 << map.gameObject.layer;
+            if (map.TryGetComponent(out TilemapCollider2D tileCollider)) tileCollider.ProcessTilemapChanges();
             map.CompressBounds();
             bounds.xMin = Mathf.Min(bounds.xMin, map.cellBounds.xMin);
             bounds.yMin = Mathf.Min(bounds.yMin, map.cellBounds.yMin);
@@ -48,6 +59,8 @@ public class AStarPathfinder : MonoBehaviour
         bounds.yMin -= padding;
         bounds.xMax += padding;
         bounds.yMax += skyPadding;
+        filter.SetLayerMask(obstacleMask);
+        Physics2D.SyncTransforms();
 
         walkable = new bool[bounds.size.x, bounds.size.y];
         for (int x = 0; x < bounds.size.x; x++)
@@ -57,6 +70,8 @@ public class AStarPathfinder : MonoBehaviour
                 walkable[x, y] = true;
                 foreach (Tilemap map in obstacleTilemaps)
                     if (map.HasTile(cell)) { walkable[x, y] = false; break; }
+                if (walkable[x, y] && Physics2D.OverlapBox(grid.GetCellCenterWorld(cell), clearance, 0f, filter, overlap) > 0)
+                    walkable[x, y] = false;
             }
     }
 
@@ -64,7 +79,7 @@ public class AStarPathfinder : MonoBehaviour
     public List<Vector3> FindPath(Vector3 startWorld, Vector3 targetWorld)
     {
         var path = new List<Vector3>();
-        Vector2Int start = ToCell(startWorld);
+        Vector2Int start = FreeNeighbour(ToCell(startWorld));
         Vector2Int goal = ClosestWalkable(ToCell(targetWorld));
         if (!IsWalkable(start) || !IsWalkable(goal)) return path;
 
@@ -141,6 +156,19 @@ public class AStarPathfinder : MonoBehaviour
     private Vector2Int ClosestWalkable(Vector2Int cell)
     {
         for (int i = 0; i < 4 && !IsWalkable(cell); i++) cell += Vector2Int.up;
+        return cell;
+    }
+
+    // O voador pode estar encostado numa célula marcada como bloqueada: começa pela vizinha livre.
+    private Vector2Int FreeNeighbour(Vector2Int cell)
+    {
+        if (IsWalkable(cell)) return cell;
+        for (int dx = -1; dx <= 1; dx++)
+            for (int dy = -1; dy <= 1; dy++)
+            {
+                var next = new Vector2Int(cell.x + dx, cell.y + dy);
+                if (IsWalkable(next)) return next;
+            }
         return cell;
     }
 

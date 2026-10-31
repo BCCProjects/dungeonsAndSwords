@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerCombat : MonoBehaviour
 {
     private static readonly int AttackHash = Animator.StringToHash("Attack");
+    private static readonly int AttackSpeedHash = Animator.StringToHash("AttackSpeed");
 
     [SerializeField] private InputActionReference attackAction;
     [SerializeField] private Transform attackPoint;
@@ -31,9 +32,9 @@ public class PlayerCombat : MonoBehaviour
     private readonly List<Collider2D> hits = new List<Collider2D>();
 
     public int DamageBonus { get; set; }                // somado pelos itens
-    public float CooldownMultiplier { get; set; } = 1f; // reduzido pelo level up
+    public float SpeedMultiplier { get; set; } = 1f;    // Agilidade: recarga menor e animação mais rápida
     public int Damage => classData.baseDamage + DamageBonus;
-    private float Cooldown => classData.attackCooldown * CooldownMultiplier;
+    private float Cooldown => classData.attackCooldown / SpeedMultiplier;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (health.IsDead || Time.timeScale == 0f || Time.time < nextAttackTime) return;
         nextAttackTime = Time.time + Cooldown;
+        animator.SetFloat(AttackSpeedHash, SpeedMultiplier); // o estado Attack usa esse parâmetro como velocidade
         animator.SetTrigger(AttackHash);
         if (projectilePrefab == null) AudioManager.Play(AudioManager.Sfx.Attack); // golpe corpo a corpo
     }

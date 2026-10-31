@@ -8,7 +8,7 @@ public class PlayerProgress
     // Atributos comprados no level up
     public int bonusMaxHealth;               // Vida
     public int bonusDamage;                  // Força
-    public float cooldownMultiplier = 1f;    // Agilidade (menor = ataca mais rápido)
+    public float speedMultiplier = 1f;       // Agilidade (1,2 = ataca 20% mais rápido e anda um pouco mais rápido)
     public float damageReduction;            // Resistência (0,2 = recebe 20% menos dano)
 
     public PlayerProgress Clone() => (PlayerProgress)MemberwiseClone();

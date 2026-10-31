@@ -63,12 +63,14 @@ public abstract class EnemyBase : MonoBehaviour
 
     protected virtual float AttackCooldown => data.attackCooldown;
 
-    protected void TryAttack()
+    // Retorna true se começou o ataque.
+    protected bool TryAttack()
     {
-        if (Time.time < nextAttackTime) return;
+        if (Time.time < nextAttackTime) return false;
         nextAttackTime = Time.time + AttackCooldown;
         animator.SetTrigger(AttackHash);
         AudioManager.Play(attackSound);
+        return true;
     }
 
     // Animation Event no quadro do golpe.
@@ -83,9 +85,13 @@ public abstract class EnemyBase : MonoBehaviour
                 target.TakeDamage(data.damage);
     }
 
+    // Com o jogador quase na mesma linha vertical (em cima ou embaixo), o inimigo não vira nem anda:
+    // senão passa do ponto, vira, passa de novo... e fica tremendo de um lado para o outro.
+    protected const float SameColumnDistance = 0.4f;
+
     protected void Face(float direction)
     {
-        if (Mathf.Abs(direction) < 0.01f) return;
+        if (Mathf.Abs(direction) < SameColumnDistance) return;
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(direction);
         transform.localScale = scale;

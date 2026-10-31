@@ -2487,7 +2487,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Dano 6    Vel. ataque 1.00x    Resist\xEAncia 0%"
+  m_text: "Dano 6   Velocidade 1.00x   Resist\xEAncia 0%"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}
   m_sharedMaterial: {fileID: 7447133163417152068, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}
@@ -2517,9 +2517,9 @@ MonoBehaviour:
   m_fontSize: 28
   m_fontSizeBase: 28
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 28
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -2531,7 +2531,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -3967,7 +3967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "+ Agilidade\n<size=55%>ataques 10% mais r\xE1pidos</size>"
+  m_text: "+ Agilidade\n<size=55%>ataque e movimento mais r\xE1pidos</size>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}
   m_sharedMaterial: {fileID: 7447133163417152068, guid: 501f79c3854b7b84b924a72b14c3bfb6, type: 2}

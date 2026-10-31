@@ -16,11 +16,16 @@ public class LevelSystem : MonoBehaviour
     [Header("Ganho por escolha")]
     [SerializeField] private int healthPerLevel = 5;
     [SerializeField] private int strengthPerLevel = 2;
-    [SerializeField] private float agilityPerLevel = 0.1f;      // -10% de recarga
+    [SerializeField] private float agilityPerLevel = 0.1f;      // +10% de velocidade
     [SerializeField] private float resistancePerLevel = 0.08f;  // -8% de dano recebido
 
+    [Header("Agilidade no movimento")]
+    [Tooltip("Quanto do bônus de velocidade vai para o movimento (0,5 = metade: +10% no ataque vira +5% andando).")]
+    [SerializeField] private float moveSpeedShare = 0.5f;
+    [SerializeField] private float maxMoveSpeedMultiplier = 1.35f;
+
     [Header("Limites")]
-    [SerializeField] private float minCooldownMultiplier = 0.4f;
+    [SerializeField] private float maxSpeedMultiplier = 2f;
     [SerializeField] private float maxDamageReduction = 0.6f;
 
     private PlayerController controller;
@@ -39,7 +44,7 @@ public class LevelSystem : MonoBehaviour
     public int XpToNextLevel => baseXpToLevel + (Progress.level - 1) * extraXpPerLevel;
     public string ClassName => controller.ClassData.displayName;
     public int Damage => combat.Damage;
-    public float AttackSpeed => 1f / combat.CooldownMultiplier; // 1,25 = 25% mais rápido
+    public float Speed => combat.SpeedMultiplier; // 1,25 = 25% mais rápido
     public float Resistance => health.DamageReduction;
 
     private void Awake()
@@ -98,7 +103,7 @@ public class LevelSystem : MonoBehaviour
                 Progress.bonusDamage += strengthPerLevel;
                 break;
             case Attribute.Agility:
-                Progress.cooldownMultiplier = Mathf.Max(minCooldownMultiplier, Progress.cooldownMultiplier * (1f - agilityPerLevel));
+                Progress.speedMultiplier = Mathf.Min(maxSpeedMultiplier, Progress.speedMultiplier + agilityPerLevel);
                 break;
             case Attribute.Resistance:
                 Progress.damageReduction = Mathf.Min(maxDamageReduction, Progress.damageReduction + resistancePerLevel);
@@ -129,7 +134,9 @@ public class LevelSystem : MonoBehaviour
     {
         health.SetMaxHealth(controller.ClassData.maxHealth + Progress.bonusMaxHealth, refillHealth);
         combat.DamageBonus = Progress.bonusDamage + effects.BonusDamage;
-        combat.CooldownMultiplier = Mathf.Max(minCooldownMultiplier, Progress.cooldownMultiplier * effects.CooldownMultiplier);
+        float speed = Mathf.Min(maxSpeedMultiplier, Progress.speedMultiplier + effects.SpeedBonus);
+        combat.SpeedMultiplier = speed;
+        controller.MoveSpeedMultiplier = Mathf.Min(maxMoveSpeedMultiplier, 1f + (speed - 1f) * moveSpeedShare);
         health.DamageReduction = Mathf.Min(maxDamageReduction, Progress.damageReduction + effects.DamageReduction);
         StatsChanged?.Invoke();
     }

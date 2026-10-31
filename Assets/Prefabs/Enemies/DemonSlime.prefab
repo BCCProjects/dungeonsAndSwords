@@ -338,8 +338,8 @@ MonoBehaviour:
   attackSound: 14
   deathSound: 15
   meleeRange: 3.4
-  hurtCooldown: 2.5
-  meleeWindup: 0.7
+  hurtCooldown: 4
+  meleeWindup: 0.5
   phase2Threshold: 0.5
   phase2SpeedMultiplier: 1.25
   phase2CooldownMultiplier: 0.85

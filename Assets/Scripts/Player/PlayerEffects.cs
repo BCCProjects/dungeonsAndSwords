@@ -16,7 +16,7 @@ public class PlayerEffects : MonoBehaviour
 
     public IReadOnlyList<ActiveEffect> Active => active;
     public int BonusDamage { get; private set; }
-    public float CooldownMultiplier { get; private set; } = 1f;
+    public float SpeedBonus { get; private set; }
     public float DamageReduction { get; private set; }
 
     private void Awake() => levelSystem = GetComponent<LevelSystem>();
@@ -47,14 +47,14 @@ public class PlayerEffects : MonoBehaviour
     private void Recalculate()
     {
         BonusDamage = 0;
-        CooldownMultiplier = 1f;
+        SpeedBonus = 0f;
         DamageReduction = 0f;
         foreach (ActiveEffect e in active)
         {
             switch (e.item.type)
             {
                 case ItemData.ItemType.Strength: BonusDamage += Mathf.RoundToInt(e.item.amount); break;
-                case ItemData.ItemType.Agility: CooldownMultiplier *= 1f - e.item.amount; break;
+                case ItemData.ItemType.Agility: SpeedBonus += e.item.amount; break;
                 case ItemData.ItemType.Resistance: DamageReduction += e.item.amount; break;
             }
         }

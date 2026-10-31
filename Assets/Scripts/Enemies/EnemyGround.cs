@@ -37,8 +37,10 @@ public class EnemyGround : EnemyBase
                 break;
 
             case State.Chase:
-                Face(player.position.x - transform.position.x);
-                if (CanMoveForward()) Move(data.chaseSpeed);
+                float toPlayer = player.position.x - transform.position.x;
+                Face(toPlayer);
+                if (Mathf.Abs(toPlayer) < SameColumnDistance) Stop(); // jogador logo acima: espera embaixo
+                else if (CanMoveForward()) Move(data.chaseSpeed);
                 else Stop(); // espera na borda em vez de cair
                 break;
 

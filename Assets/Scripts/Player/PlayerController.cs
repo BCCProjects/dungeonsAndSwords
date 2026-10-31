@@ -20,6 +20,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float groundCheckRadius = 0.15f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Em cima de inimigo")]
+    [Tooltip("Velocidade com que o jogador escorrega para fora da cabeça de um inimigo.")]
+    [SerializeField] private float slideOffSpeed = 6f;
+
     [Header("Input")]
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference jumpAction;
@@ -29,10 +33,12 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed;
     private float inputX;
     private bool jumpRequested;
+    private float slideOffDirection; // ≠ 0 enquanto está pisando num inimigo
 
     public ClassData ClassData => classData;
     public bool IsGrounded { get; private set; }
     public bool CanMove { get; set; } = true;
+    public float MoveSpeedMultiplier { get; set; } = 1f; // Agilidade
 
     private void Awake()
     {
@@ -71,7 +77,14 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 velocity = rb.linearVelocity;
-        velocity.x = inputX * moveSpeed;
+        velocity.x = inputX * moveSpeed * MoveSpeedMultiplier;
+
+        // Não dá para ficar parado em cima de um inimigo: escorrega para o lado mais próximo.
+        if (slideOffDirection != 0f)
+        {
+            velocity.x = slideOffDirection * slideOffSpeed;
+            slideOffDirection = 0f;
+        }
 
         if (jumpRequested && IsGrounded)
         {
@@ -93,6 +106,19 @@ public class PlayerController : MonoBehaviour
     {
         if (rb.linearVelocity.y > 0f)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCutMultiplier);
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.rigidbody == null || !collision.rigidbody.TryGetComponent(out EnemyBase _)) return;
+
+        for (int i = 0; i < collision.contactCount; i++)
+        {
+            if (collision.GetContact(i).normal.y < 0.5f) continue; // só conta se estiver pisando nele
+            float side = transform.position.x - collision.rigidbody.position.x;
+            slideOffDirection = Mathf.Abs(side) > 0.05f ? Mathf.Sign(side) : Mathf.Sign(transform.localScale.x);
+            return;
+        }
     }
 
     // Vira o personagem pela escala, para que colliders e pontos de ataque virem junto.

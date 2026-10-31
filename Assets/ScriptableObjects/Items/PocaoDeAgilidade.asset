@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PocaoDeAgilidade
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   displayName: "Po\xE7\xE3o de Agilidade"
-  description: "Ataques 30% mais r\xE1pidos por 30s"
+  description: "Ataque e movimento mais r\xE1pidos por 30s"
   icon: {fileID: 21300000, guid: d20a7a9dfeb21694ea912f9222bc05c6, type: 3}
   color: {r: 0.4, g: 1, b: 0.5, a: 1}
   type: 3

@@ -7131,14 +7131,15 @@ MonoBehaviour:
   deathSound: 15
   meleeRange: 2.2
   beamMinDistance: 6
-  beamCooldown: 7
+  beamCooldown: 6
   beamPoint: {fileID: 2438419451823759827}
   beamPrefab: {fileID: 4790616370181527614, guid: 6b87509a963fd7444be4a91fc312fa6d, type: 3}
   beamDamage: 14
-  hurtCooldown: 2.5
+  hurtCooldown: 4
+  meleeWindup: 0.4
   phase2Threshold: 0.5
   phase2SpeedMultiplier: 1.5
-  phase2CooldownMultiplier: 0.6
+  phase2CooldownMultiplier: 0.75
   lootDrops: 3
   dissolveTime: 2.5
 --- !u!114 &973275974345337502
