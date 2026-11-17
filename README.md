@@ -16,6 +16,11 @@ Platformer 2D de visão lateral feito em Unity. O jogador escolhe uma classe (Gu
 
 ## Como executar
 
+### Pelo Executável (.exe)
+
+1. A entrega do executavel do jogo foi feita pelo portal Connect e está zipada junto com o GDD e a Apresentação
+2. Uma vez que tiver o arquivo, execute o arquivo executavel `Dungeons&Swords.exe`
+
 ### Pelo Unity (editor)
 
 1. Instale o **Unity 6.3 LTS (6000.3.25f1)** pelo Unity Hub.
@@ -24,7 +29,7 @@ Platformer 2D de visão lateral feito em Unity. O jogador escolhe uma classe (Gu
 4. Abra a cena `Assets/Scenes/MainMenu.unity`.
 5. Clique em **Play**.
 
-### Gerando o executável
+### Gerando o executável (caso necessário)
 
 1. No Unity, abra **File → Build Profiles**.
 2. Selecione a plataforma **Windows** (as cenas já estão registradas, com `MainMenu` como cena inicial).
