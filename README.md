@@ -18,8 +18,8 @@ Platformer 2D de visão lateral feito em Unity. O jogador escolhe uma classe (Gu
 
 ### Pelo Executável (.exe)
 
-1. A entrega do executavel do jogo foi feita pelo portal Connect e está zipada junto com o GDD e a Apresentação
-2. Uma vez que tiver o arquivo, execute o arquivo executavel `Dungeons&Swords.exe`
+1. O executável do jogo foi entregue pelo portal Connect, em um arquivo .zip junto com o GDD e a apresentação.
+2. Extraia o .zip e execute `Dungeons&Swords.exe`.
 
 ### Pelo Unity (editor)
 
